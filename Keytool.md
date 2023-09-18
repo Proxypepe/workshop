@@ -61,3 +61,79 @@
 4. Создание и подписание запросов на подпись сертификата
 Он также хранит все в защищенном файле, который имеет главный пароль в дополнение к конкретным паролям для каждого хранимого ключа. Вы можете думать об этом как о небольшой базе данных SQLite, защищенной паролем, с вашими ключами и сертификатами.
 
+1. **Создание нового хранилища ключей (JKS)**:
+    
+    `keytool -genkeypair -alias mykey -keyalg RSA -keystore keystore.jks`
+    
+    Эта команда создает новую пару ключей (открытый и закрытый ключ) и сохраняет их в новом файле хранилища ключей `keystore.jks`.
+    
+2. **Создание запроса на подпись сертификата (CSR)**:
+    
+    `keytool -certreq -alias mykey -keystore keystore.jks -file mykey.csr`
+    
+    Эта команда создает запрос на подпись сертификата (CSR) на основе закрытого ключа из хранилища и сохраняет его в файл `mykey.csr`.
+    
+3. **Импорт сертификата в хранилище ключей (JKS)**:
+    
+    `keytool -import -alias ca -file cacert.cer -keystore keystore.jks`
+    
+    Эта команда импортирует сертификат из файла `cacert.cer` в хранилище ключей `keystore.jks` с алиасом `ca`.
+    
+4. **Просмотр содержимого хранилища ключей (JKS)**:
+    `keytool -list -keystore keystore.jks`
+    
+    Эта команда отображает список записей (ключей и сертификатов) в хранилище ключей `keystore.jks`.
+    
+5. **Экспорт сертификата из хранилища ключей (JKS)**:
+    `keytool -export -alias mykey -file mykey.cer -keystore keystore.jks`
+    
+    Эта команда экспортирует сертификат с алиасом `mykey` из хранилища ключей `keystore.jks` в файл `mykey.cer`.
+    
+6. **Импорт сертификата в доверенное хранилище (cacerts)**:
+    `keytool -import -trustcacerts -alias mykey -file mykey.cer -keystore cacerts`
+    
+    Эта команда импортирует сертификат с алиасом `mykey` из файла `mykey.cer` в доверенное хранилище `cacerts`, которое используется для доверия корневым сертификатам.
+    
+7. **Удаление ключа или сертификата из хранилища ключей (JKS)**:
+    `keytool -delete -alias mykey -keystore keystore.jks`
+    
+    Эта команда удаляет ключ или сертификат с алиасом `mykey` из хранилища ключей `keystore.jks`.
+    
+8. **Импорт ключей и сертификатов из PKCS #12 (PFX) файла**:
+    `keytool -importkeystore -srckeystore mypfx.pfx -srcstoretype PKCS12 -destkeystore keystore.jks -deststoretype JKS`
+    
+    Эта команда импортирует ключи и сертификаты из PKCS #12 файла `mypfx.pfx` в хранилище ключей `keystore.jks`.
+9. **Импорт корневого сертификата в хранилище ключей (JKS)**:
+    `keytool -importcert -alias rootca -file rootca.cer -keystore keystore.jks`
+    
+    Эта команда импортирует корневой сертификат (например, центра сертификации) из файла `rootca.cer` в хранилище ключей `keystore.jks` с алиасом `rootca`.
+    
+10. **Изменение пароля для хранилища ключей (JKS)**:
+    `keytool -storepasswd -keystore keystore.jks`
+    
+    Эта команда позволяет изменить пароль для доступа к хранилищу ключей `keystore.jks`.
+    
+11. **Создание нового хранилища ключей (PKCS #12, PFX)**:
+    `keytool -genkeypair -alias mykey -keyalg RSA -storetype PKCS12 -keystore keystore.pfx`
+    
+    Эта команда создает новую пару ключей и сохраняет их в новом PKCS #12 (PFX) файле `keystore.pfx`.
+    
+12. **Создание нового хранилища ключей с определенным размером ключа (RSA)**:
+    `keytool -genkeypair -alias mykey -keyalg RSA -keysize 2048 -keystore keystore.jks`
+    
+    Эта команда создает новую пару ключей с размером 2048 бит и сохраняет их в хранилище ключей `keystore.jks`.
+    
+13. **Генерация самоподписанного сертификата**:
+    `keytool -genkeypair -alias mykey -keyalg RSA -keystore keystore.jks -selfcert`
+    
+    Эта команда создает самоподписанный сертификат для ключа с алиасом `mykey` и сохраняет его в хранилище ключей `keystore.jks`.
+    
+14. **Создание бэкапа хранилища ключей (JKS)**:
+    `keytool -importkeystore -srckeystore keystore.jks -destkeystore keystore_backup.jks -deststoretype JKS`
+    
+    Эта команда создает бэкап хранилища ключей `keystore.jks` и сохраняет его как `keystore_backup.jks`.
+    
+15. **Просмотр информации о сертификате**:
+    `keytool -printcert -file mycert.cer`
+    
+    Эта команда выводит информацию о сертификате из файла `mycert.cer`.
